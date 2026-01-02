@@ -1,231 +1,271 @@
-# 🗑️ Sistem Pemilah Sampah Cerdas IoT dengan YOLOv8
+# 🗑️ Sistem Pemilah Sampah Cerdas - IoT & YOLOv8
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
-[![YOLOv8](https://img.shields.io/badge/YOLOv8-v8.0+-green.svg)](https://github.com/ultralytics/ultralytics)
-[![ESP32](https://img.shields.io/badge/ESP32-Arduino-red.svg)](https://www.espressif.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+> **Smart Waste Sorting System** menggunakan AI (YOLOv8), ESP32, dan IoT untuk memilah sampah otomatis ke 3 kategori: Organik, Anorganik, dan B3.
 
-Sistem pemilah sampah otomatis berbasis AI untuk membantu pengelolaan sampah rumah tangga menjadi lebih efisien menggunakan YOLOv8m dan ESP32.
-
----
-
-## 🎯 Untuk UAS Besok - Quick Start! ⚡
-
-**Waktu terbatas? Fokus di sini:**
-
-1. **Training Model (2 jam)** ⭐ PRIORITY #1
-   - Upload `notebooks/Training_YOLOv8m_Colab_Pro.ipynb` ke Google Colab
-   - Setup GPU, ganti API key, Run all cells
-   - Download `best.pt`
-
-2. **Test Inference (30 menit)**
-   ```bash
-   pip install -r requirements.txt
-   python test_setup.py  # Cek instalasi
-   python inference/laptop_inference.py  # Run deteksi
-   ```
-
-3. **Record Demo (15 menit)**
-   - Tunjukkan deteksi organik & anorganik
-   - Screenshot training results
-   - **Done! UAS ready!** ✅
-
-📖 **Panduan Lengkap**: Lihat [PROJECT_GUIDE.md](PROJECT_GUIDE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![ESP32](https://img.shields.io/badge/ESP32-DevKit%20v1-blue.svg)](https://www.espressif.com/en/products/socs/esp32)
+[![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00FFFF.svg)](https://github.com/ultralytics/ultralytics)
+[![Blynk](https://img.shields.io/badge/IoT-Blynk-23C48E.svg)](https://blynk.io/)
 
 ---
 
-## 📋 Deskripsi
+## 🎯 Overview
 
-Project ini menggunakan YOLOv8m untuk mendeteksi dan mengklasifikasikan sampah menjadi kategori:
-- **Organik**: Sisa makanan, daun, ranting
-- **Anorganik**: Plastik, kertas, logam, kaca
-- **B3** (Optional): Bahan Berbahaya & Beracun
+Sistem pemilah sampah otomatis berbasis AI dengan komponen:
 
-### Fitur Utama
-- ✅ AI Detection dengan YOLOv8m (mAP > 85%)
-- ✅ Real-time inference via webcam
-- ✅ ESP32 integration untuk hardware control
-- ✅ Automated sorting dengan servo motors
-- ✅ LED indicators untuk visual feedback
-- ✅ Complete training pipeline di Google Colab
+- **🤖 AI Detection**: YOLOv8 untuk klasifikasi sampah
+- **📷 ESP32-CAM**: Motion detection & image capture
+- **🎛️ ESP32 Main**: Kontrol servo & sensor
+- **💻 Laptop Inference**: YOLOv8 processing
+- **☁️ Blynk IoT**: Real-time monitoring dashboard
+- **🔧 Dual Communication**: WiFi (primary) + Serial (backup)
+
+### Workflow Singkat:
+
+```
+Sampah → Motion Detection → Capture Foto → YOLOv8 Inference 
+  → Klasifikasi (0/1/2) → Cek Bin Full → Rotasi Platform 
+  → Buka Penadah → Sampah Jatuh → Update Dashboard
+```
 
 ---
 
-## 🔧 Hardware Requirements
+## 📦 Hardware Requirements
 
-| Komponen | Qty | Keterangan |
-|----------|-----|------------|
+| Component | Qty | Function |
+|-----------|-----|----------|
 | ESP32 DevKit V1 | 1 | Main controller |
-| ESP32-CAM | 1 | Camera module (optional) |
-| Servo SG90 | 3 | Untuk 3 bins |
-| HC-SR04 | 1 | Ultrasonic sensor |
-| LED 5mm | 3 | Indicators |
-| Resistor 220Ω | 3 | Untuk LED |
-| Breadboard | 1 | Prototyping |
+| ESP32-CAM AI Thinker | 1 | Camera & motion detection |
+| Servo Motor (SG90/MG996R) | 2 | Penadah & platform rotation |
+| HC-SR04 Ultrasonic | 3 | Bin full detection |
+| LED 5mm | 5 | Status indicators |
 | Power Supply 5V 3A | 1 | Power |
+| Breadboard & Jumper Wires | - | Connections |
 
-**Total cost**: ~Rp 200.000
+**Total Budget**: ~Rp 500.000 - Rp 700.000
 
 ---
 
 ## 💻 Software Requirements
 
-- **Python 3.8+**
-- **Google Colab** (untuk training)
-- **Arduino IDE 2.0+** (untuk ESP32)
-- **Dependencies**: Lihat [requirements.txt](requirements.txt)
+- **Arduino IDE 2.x** - Upload ESP32 code
+- **Python 3.8+** - Laptop inference
+- **Google Colab** - Model training (gratis)
+- **Blynk Account** - IoT dashboard (gratis)
+
+**Python Libraries**: (Install via `pip install -r requirements.txt`)
+- ultralytics (YOLOv8)
+- opencv-python
+- flask
+- pyserial
+- blynk-library-python
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (5 Steps)
 
-### 1. Clone Repository
-
+### 1️⃣ Clone Repository
 ```bash
 git clone https://github.com/krompium/sistem-pemilah-sampah-cerdas-IOT-YOLOV8.git
 cd sistem-pemilah-sampah-cerdas-IOT-YOLOV8
 ```
 
-### 2. Training Model
-
+### 2️⃣ Install Dependencies
 ```bash
-# 1. Buka Google Colab: https://colab.research.google.com
-# 2. Upload: notebooks/Training_YOLOv8m_Colab_Pro.ipynb
-# 3. Runtime > Change runtime type > GPU
-# 4. Edit Cell 3: Ganti API key Roboflow
-# 5. Runtime > Run all
-# 6. Download best.pt ke folder models/
-```
-
-### 3. Setup Python Environment
-
-```bash
-# Install dependencies
 pip install -r requirements.txt
-
-# Test instalasi
-python test_setup.py
 ```
 
-### 4. Run Inference
+### 3️⃣ Upload ESP32 Code
+- Edit WiFi credentials di `esp32/esp32_main_controller/esp32_main_controller.ino`
+- Upload ke ESP32 Main & ESP32-CAM via Arduino IDE
 
+### 4️⃣ Train Model (Google Colab)
+- Open `yolov8_pemilah_sampah_otomatis.ipynb` di Colab
+- Training ~30 menit
+- Download `best.pt` → folder `models/`
+
+### 5️⃣ Run Laptop Inference
 ```bash
-# Inference dengan webcam
-python inference/laptop_inference.py
-
-# Controls:
-# - SPACE: Klasifikasi
-# - Q: Quit
+python inference/laptop_inference_dual.py
 ```
 
-### 5. Setup Hardware (Optional)
+**✅ System Ready!** Taruh sampah di penadah dan lihat magic happen! 🪄
 
-```bash
-# 1. Rakit hardware sesuai docs/HARDWARE_SETUP.md
-# 2. Buka Arduino IDE
-# 3. Upload: esp32/esp32_main/esp32_main.ino
-# 4. Connect ESP32 via USB
-# 5. Run inference script (auto-detect ESP32)
+---
+
+## 📁 Folder Structure
+
+```
+sistem-pemilah-sampah-cerdas-IOT-YOLOV8/
+│
+├── 📂 esp32/
+│   ├── esp32_main_controller/          # ESP32 main code
+│   │   └── esp32_main_controller.ino
+│   └── esp32cam_motion_capture/        # ESP32-CAM code
+│       └── esp32cam_motion_capture.ino
+│
+├── 📂 inference/
+│   ├── laptop_inference_dual.py        # Main inference script
+│   └── blynk_dashboard.py              # Blynk sync script
+│
+├── 📂 config/
+│   └── config.py                       # Centralized configuration
+│
+├── 📂 docs/
+│   ├── QUICK_START_GUIDE.md            # Setup lengkap 90 menit
+│   ├── HARDWARE_WIRING.md              # Wiring diagram
+│   ├── CALIBRATION_GUIDE.md            # Kalibrasi servo & sensor
+│   ├── BLYNK_SETUP.md                  # Blynk dashboard setup
+│   └── TROUBLESHOOTING.md              # Solusi masalah umum
+│
+├── 📂 models/                          # YOLOv8 trained models
+│   └── best.pt                         # (download dari Colab)
+│
+├── 📓 yolov8_pemilah_sampah_otomatis.ipynb  # Colab training
+├── 📄 requirements.txt                 # Python dependencies
+├── 📄 .gitignore
+└── 📄 README.md
 ```
 
 ---
 
-## 📚 Dokumentasi Lengkap
+## 🎓 Documentation
 
-- 📖 **[PROJECT_GUIDE.md](PROJECT_GUIDE.md)** - **Panduan lengkap untuk UAS!**
-- 🚀 [Quick Start Guide](docs/QUICK_START.md) - Setup cepat
-- 🎓 [Training Guide](docs/TRAINING_GUIDE.md) - Detail training YOLOv8
-- 🔧 [Hardware Setup](docs/HARDWARE_SETUP.md) - Wiring & assembly
-- 📊 [Roboflow Guide](docs/ROBOFLOW_GUIDE.md) - Dataset management
+Panduan lengkap tersedia di folder `docs/`:
 
----
+| Document | Description | Time |
+|----------|-------------|------|
+| [Quick Start Guide](docs/QUICK_START_GUIDE.md) | Setup sistem dari nol | 90 min |
+| [Hardware Wiring](docs/HARDWARE_WIRING.md) | Pin connections & assembly | 20 min |
+| [Calibration Guide](docs/CALIBRATION_GUIDE.md) | Kalibrasi servo & sensor | 15 min |
+| [Blynk Setup](docs/BLYNK_SETUP.md) | IoT dashboard configuration | 10 min |
+| [Troubleshooting](docs/TROUBLESHOOTING.md) | Solusi masalah umum | - |
 
-## 📁 Project Structure
-
-```
-├── 📓 notebooks/          # Training notebook
-├── 🤖 models/             # Trained models
-├── 🐍 inference/          # Inference scripts
-├── 🔧 esp32/              # ESP32 code
-├── 📷 arduino/            # ESP32-CAM code
-├── 📚 docs/               # Documentation
-├── 📄 README.md           # This file
-├── 📖 PROJECT_GUIDE.md    # Comprehensive guide
-└── 📦 requirements.txt    # Dependencies
-```
+**📌 Rekomendasi**: Mulai dari `QUICK_START_GUIDE.md` untuk setup step-by-step!
 
 ---
 
-## 🎯 Hasil yang Diharapkan
+## ⚙️ Key Features
 
-### Training Metrics
-- **mAP50**: > 0.85 (Excellent!)
-- **Precision**: > 0.80
-- **Recall**: > 0.80
-- **Training time**: 1-2 jam (Colab Pro)
+### ✅ Implemented:
+- [x] YOLOv8 object detection (3 classes)
+- [x] ESP32-CAM motion detection
+- [x] Dual servo control (penadah + platform)
+- [x] 3x ultrasonic bin full detection
+- [x] WiFi communication (ESP32 ↔ Laptop)
+- [x] Serial fallback communication
+- [x] Blynk IoT dashboard
+- [x] LED status indicators
+- [x] CSV logging
+- [x] Real-time GUI display
+- [x] Calibration mode
+- [x] Error handling & retry
 
-### Inference Performance
-- **FPS**: 15-30 (dengan GPU)
-- **Latency**: < 100ms per frame
-- **Accuracy**: > 85%
+### 🔧 Customizable:
+- Servo angles (buka/tutup, rotasi)
+- Sensor thresholds (bin full detection)
+- WiFi credentials
+- Model confidence threshold
+- Communication ports
+- LED pins
+- All parameters di `config/config.py`
 
 ---
 
 ## 🎥 Demo
 
-Video demo dan screenshot akan ditambahkan setelah testing.
+### Expected Output:
+
+1. **User** taruh sampah di penadah
+2. **ESP32-CAM** deteksi motion → capture foto
+3. **Laptop** terima foto → YOLOv8 inference
+4. **Hasil**: 0=Organik, 1=Anorganik, 2=B3
+5. **ESP32 Main**:
+   - Cek bin penuh (ultrasonic)
+   - Putar platform ke bin target
+   - Buka penadah → sampah jatuh
+   - Tutup penadah
+   - Platform ke HOME
+6. **Blynk** dashboard update counter
+7. **LED** nyala sesuai kategori
+
+**⏱️ Total time**: ~3-5 detik per sampah
 
 ---
 
-## 🐛 Troubleshooting
+## 🧪 Testing
 
-**Problem**: GPU tidak tersedia di Colab  
-**Solution**: Runtime > Factory reset runtime, lalu pilih GPU lagi
+Basic system test:
+```bash
+# Test ESP32 status
+curl http://192.168.1.102/status
 
-**Problem**: Model not found  
-**Solution**: Training dulu di Colab, download best.pt
+# Test ESP32-CAM capture
+curl http://192.168.1.101/capture -o test.jpg
 
-**Problem**: Webcam tidak terdeteksi  
-**Solution**: Check permissions, restart script
-
-Lihat troubleshooting lengkap di [PROJECT_GUIDE.md](PROJECT_GUIDE.md)
+# Manual classification via Serial
+# Open Serial Monitor, ketik: 0 (Organik), 1 (Anorganik), 2 (B3)
+```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions welcome! Silakan buka issue atau pull request.
+Contributions welcome! Silakan:
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
 ---
 
-## 👤 Author
+## 📝 License
 
-**krompium**
-- GitHub: [@krompium](https://github.com/krompium)
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-## 📄 License
+## 👨‍💻 Author
 
-MIT License - feel free to use for your projects!
+**@krompium**
+
+Project untuk: **Tugas UAS - Sistem Pemilah Sampah Cerdas**
 
 ---
 
 ## 🙏 Acknowledgments
 
-- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
-- [Roboflow](https://roboflow.com)
-- [Google Colab](https://colab.research.google.com)
-- [ESP32 Community](https://www.espressif.com/)
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) - AI model
+- [Espressif ESP32](https://www.espressif.com/) - Hardware platform
+- [Blynk](https://blynk.io/) - IoT dashboard
+- [Arduino](https://www.arduino.cc/) - Development framework
 
 ---
 
-## 🎓 Good Luck untuk UAS!
+## 📞 Support
 
-**Tips terakhir:**
-- Focus pada training + inference ✅
-- Hardware = nice to have, bukan wajib
-- Demo video sangat membantu
-- Pahami cara kerja sistem
+Jika ada pertanyaan atau issue:
 
-**Selamat mengerjakan! 🚀**
+1. Check [Troubleshooting Guide](docs/TROUBLESHOOTING.md)
+2. Open GitHub Issue
+3. Check dokumentasi lengkap di folder `docs/`
+
+---
+
+## 🎯 Roadmap
+
+Future improvements:
+- [ ] Mobile app (React Native / Flutter)
+- [ ] Multi-language detection
+- [ ] Cloud model deployment
+- [ ] Automatic dataset collection
+- [ ] Voice notifications
+- [ ] Energy monitoring
+- [ ] Waste analytics dashboard
+
+---
+
+**⭐ Star repository ini jika bermanfaat!**
+
+**🔥 Good luck dengan UAS! 🚀**

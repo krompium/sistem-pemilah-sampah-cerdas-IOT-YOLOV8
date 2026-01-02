@@ -1,7 +1,59 @@
-# Byte-compiled / optimized / DLL files
+# ========== MODELS & DATASETS ==========
+# YOLOv8 trained models
+models/*.pt
+models/*.onnx
+models/*.tflite
+models/*.engine
+*.pt
+*.onnx
+*.tflite
+# Keep models directory
+!models/.gitkeep
+
+# Dataset folders
+dataset/
+datasets/
+data/
+train/
+valid/
+test/
+
+# Raw images and videos
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Allow specific images if needed (uncomment)
+# !docs/images/*.png
+# !docs/images/*.jpg
+
+# ========== CREDENTIALS & SECRETS ==========
+# Configuration with sensitive data
+config/config.py
+secrets.py
+*.env
+.env.*
+# Keep example config
+!config/config.example.py
+
+# Authentication tokens
+blynk_auth.txt
+wifi_credentials.json
+api_keys.txt
+
+# ========== PYTHON ==========
+# Byte-compiled / optimized
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 
 # Virtual environments
 venv/
@@ -9,34 +61,93 @@ env/
 ENV/
 .venv
 
-# Models
-models/*.pt
-models/*.onnx
-models/*.tflite
-!models/.gitkeep
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
 
-# Dataset
-dataset/
-data/
-*.zip
-
-# Training runs
-runs/
-pemilah-sampah/
-yolov8*/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Logs
+# ========== LOGS & OUTPUT ==========
+# Log files
+logs/
 *.log
+*.csv
+# Keep logs directory
+!logs/.gitkeep
+
+# Output directories
+output/
+results/
+runs/
+captured_images/
+debug_images/
+# Keep directory structure
+!models/.gitkeep
+!captured_images/.gitkeep
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~
+
+# ========== IDE & EDITORS ==========
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# ========== OS SPECIFIC ==========
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ========== ESP32 ==========
+# Arduino build artifacts (if any)
+*.hex
+*.bin
+*.elf
+*.map
+
+# ========== MISC ==========
+# Backup files
+*.backup
+*.old
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Archives
+*.zip
+*.tar
+*.gz
+*.rar
+
+# Documentation build
+docs/_build/
+site/
