@@ -1,0 +1,144 @@
+# ========== MODELS & DATASETS ==========
+# YOLOv8 trained models
+models/*.pt
+models/*.onnx
+models/*.tflite
+models/*.engine
+*.pt
+*.onnx
+*.tflite
+
+# Dataset folders
+dataset/
+datasets/
+data/
+train/
+valid/
+test/
+
+# Raw images and videos
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Allow specific images if needed (uncomment)
+# !docs/images/*.png
+# !docs/images/*.jpg
+
+# ========== CREDENTIALS & SECRETS ==========
+# Configuration with sensitive data
+config.py
+secrets.py
+*.env
+.env.*
+
+# Authentication tokens
+blynk_auth.txt
+wifi_credentials.json
+api_keys.txt
+
+# ========== PYTHON ==========
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# ========== LOGS & OUTPUT ==========
+# Log files
+logs/
+*.log
+*.csv
+
+# Output directories
+output/
+results/
+runs/
+captured_images/
+debug_images/
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~
+
+# ========== IDE & EDITORS ==========
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# ========== OS SPECIFIC ==========
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ========== ESP32 ==========
+# Arduino build artifacts (if any)
+*.hex
+*.bin
+*.elf
+*.map
+
+# ========== MISC ==========
+# Backup files
+*.backup
+*.old
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Archives
+*.zip
+*.tar
+*.gz
+*.rar
+
+# Documentation build
+docs/_build/
+site/

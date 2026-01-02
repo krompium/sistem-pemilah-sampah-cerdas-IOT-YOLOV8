@@ -1,0 +1,46 @@
+# ========== CORE DEPENDENCIES ==========
+# YOLOv8 and Computer Vision
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.24.0
+pillow>=10.0.0
+
+# ========== WEB & API ==========
+# Flask for HTTP server
+flask>=2.3.0
+requests>=2.31.0
+
+# ========== IOT & COMMUNICATION ==========
+# Serial communication
+pyserial>=3.5
+
+# Blynk IoT
+blynk-library-python>=1.0.0
+
+# ========== DATA & LOGGING ==========
+# Data handling
+pandas>=2.0.0
+pyyaml>=6.0
+
+# ========== UTILITIES ==========
+# Progress bars
+tqdm>=4.65.0
+
+# Image processing
+scikit-image>=0.21.0
+
+# ========== OPTIONAL DEPENDENCIES ==========
+# For better performance (optional)
+# onnx>=1.14.0
+# onnxruntime>=1.15.0
+
+# For notifications (optional)
+# plyer>=2.1.0
+
+# ========== DEVELOPMENT ==========
+# Code quality (optional for development)
+# black>=23.0.0
+# pylint>=2.17.0
+# pytest>=7.3.0
