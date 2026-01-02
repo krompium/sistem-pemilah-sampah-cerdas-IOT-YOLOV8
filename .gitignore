@@ -7,6 +7,8 @@ models/*.engine
 *.pt
 *.onnx
 *.tflite
+# Keep models directory
+!models/.gitkeep
 
 # Dataset folders
 dataset/
@@ -34,10 +36,12 @@ test/
 
 # ========== CREDENTIALS & SECRETS ==========
 # Configuration with sensitive data
-config.py
+config/config.py
 secrets.py
 *.env
 .env.*
+# Keep example config
+!config/config.example.py
 
 # Authentication tokens
 blynk_auth.txt
@@ -68,6 +72,8 @@ build/
 logs/
 *.log
 *.csv
+# Keep logs directory
+!logs/.gitkeep
 
 # Output directories
 output/
@@ -75,6 +81,9 @@ results/
 runs/
 captured_images/
 debug_images/
+# Keep directory structure
+!models/.gitkeep
+!captured_images/.gitkeep
 
 # Temporary files
 temp/
