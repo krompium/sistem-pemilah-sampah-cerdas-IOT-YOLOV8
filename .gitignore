@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Models
+models/*.pt
+models/*.onnx
+models/*.tflite
+!models/.gitkeep
+
+# Dataset
+dataset/
+data/
+*.zip
+
+# Training runs
+runs/
+pemilah-sampah/
+yolov8*/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
